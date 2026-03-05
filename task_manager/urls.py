@@ -3,9 +3,12 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),  # главная
-    path('users/', include('users.urls')),  # подключаем маршруты пользователей
+    path("admin/", admin.site.urls),
+
+    path("", TemplateView.as_view(template_name="index.html"), name="index"),
+
+    path("users/", include("users.urls")),
     path("statuses/", include("statuses.urls")),
-    path("tasks/", include("task_manager.tasks.urls")),
+    path("tasks/", include("tasks.urls")),
+    path("labels/", include("labels.urls")),
 ]

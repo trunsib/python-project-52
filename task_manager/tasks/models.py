@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from labels.models import Label
 
 User = get_user_model()
 
@@ -29,6 +30,11 @@ class Task(models.Model):
         verbose_name="Исполнитель",
         blank=True,
         null=True,
+    )
+
+    labels = models.ManyToManyField(
+        Label,
+        blank=True
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
