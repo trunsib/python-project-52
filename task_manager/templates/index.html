@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}Home | Task Manager{% endblock %}
+
 {% block content %}
 <div class="text-center">
-  <h1 class="mb-3">Welcome to Task Manager</h1>
-  <p class="lead">Use the menu above to login, register, or see users.</p>
-  <a href="#" class="btn btn-primary me-2">Login</a>
-  <a href="#" class="btn btn-secondary">Register</a>
+    <h1>Welcome to Task Manager</h1>
+    <p class="lead">Your tasks, your workflow, simplified with Django + Bootstrap!</p>
+    <a class="btn btn-primary" href="/users/create/">Get Started</a>
 </div>
 {% endblock %}
