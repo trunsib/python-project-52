@@ -1,0 +1,17 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete User</title>
+    {% bootstrap_css %}
+</head>
+<body class="container mt-4">
+    <h1>Delete User</h1>
+    <p>Are you sure you want to delete "{{ object.username }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'users:list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</body>
+</html>
