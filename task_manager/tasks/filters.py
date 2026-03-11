@@ -1,9 +1,12 @@
 import django_filters
 from django import forms
+from django.contrib.auth import get_user_model
+
 from .models import Task
 from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
-from django.contrib.auth.models import User
+
+User = get_user_model()
 
 
 class TaskFilter(django_filters.FilterSet):
