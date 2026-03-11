@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'users',
     'statuses',
+    'tasks',
     'labels',
     'django_filters',
     'rollbar.contrib.django',
