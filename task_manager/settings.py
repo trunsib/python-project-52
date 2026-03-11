@@ -35,10 +35,10 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "django_filters",
 
-    "users",
-    "statuses",
-    "tasks",
-    "labels",
+    "task_manager.users",
+    "task_manager.statuses",
+    "task_manager.tasks",
+    "task_manager.labels",
 
     "rollbar.contrib.django",
 ]
