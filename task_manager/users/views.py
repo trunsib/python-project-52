@@ -1,22 +1,30 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
-def register_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username", "")
-        password = request.POST.get("password", "")
-        password_confirm = request.POST.get("passwordConfirm", "")
 
-        if password != password_confirm:
-            messages.error(request, "Passwords do not match")
-            return render(request, "users/register.html")
+class UserListView(ListView):
+    model = User
+    template_name = "users/index.html"
+    context_object_name = "users"
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
-            return render(request, "users/register.html")
 
-        User.objects.create_user(username=username, password=password)
-        return redirect("login")  # предполагается, что есть login view
+class UserCreateView(CreateView):
+    model = User
+    template_name = "users/form.html"
+    fields = ["first_name", "last_name", "username", "password"]
+    success_url = reverse_lazy("users:list")
 
-    return render(request, "users/register.html")
+
+class UserUpdateView(UpdateView):
+    model = User
+    template_name = "users/form.html"
+    fields = ["first_name", "last_name", "username"]
+    success_url = reverse_lazy("users:list")
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = "users/delete.html"
+    success_url = reverse_lazy("users:list")
+    
