@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Регистрация</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="id_username">Имя пользователя</label>
+        <input type="text" name="username" id="id_username" required>
+    </div>
+    <div>
+        <label for="id_password">Пароль</label>
+        <input type="password" name="password" id="id_password" required>
+    </div>
+    <div>
+        <label for="id_passwordConfirm">Подтверждение пароля</label>
+        <input type="password" name="passwordConfirm" id="id_passwordConfirm" required>
+    </div>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+{% endblock %}
