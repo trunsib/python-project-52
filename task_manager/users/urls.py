@@ -1,13 +1,21 @@
-# task_manager/users/urls.py
 from django.urls import path
-from . import views
+from .views import (
+    UserListView,
+    UserCreateView,
+    UserUpdateView,
+    UserDeleteView,
+    LoginView,
+    LogoutView,
+)
 
-# Название namespace для ссылок
-app_name = "users"
+app_name = 'users'
 
 urlpatterns = [
-    path("", views.UserListView.as_view(), name="index"),      # список пользователей
-    path("login/", views.LoginView.as_view(), name="login"),   # вход
-    path("logout/", views.LogoutView.as_view(), name="logout"),# выход
-    path("create/", views.UserCreateView.as_view(), name="create"), # регистрация
+    path('', UserListView.as_view(), name='list'),
+    path('create/', UserCreateView.as_view(), name='create'),
+    path('<int:pk>/update/', UserUpdateView.as_view(), name='update'),
+    path('<int:pk>/delete/', UserDeleteView.as_view(), name='delete'),
+
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
