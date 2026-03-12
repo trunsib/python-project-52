@@ -1,24 +1,52 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h1>Регистрация</h1>
+<h1>
+  {% if object %}
+    Изменение пользователя
+  {% else %}
+    Регистрация
+  {% endif %}
+</h1>
+
 <form method="post">
   {% csrf_token %}
+
   <div class="mb-3">
-    <label for="id_first_name" class="form-label">Имя</label>
-    <input type="text" name="first_name" id="id_first_name" class="form-control">
+    <label for="id_first_name">Имя</label>
+    {{ form.first_name }}
   </div>
+
   <div class="mb-3">
-    <label for="id_last_name" class="form-label">Фамилия</label>
-    <input type="text" name="last_name" id="id_last_name" class="form-control">
+    <label for="id_last_name">Фамилия</label>
+    {{ form.last_name }}
   </div>
+
   <div class="mb-3">
-    <label for="id_username" class="form-label">Логин</label>
-    <input type="text" name="username" id="id_username" class="form-control">
+    <label for="id_username">Логин</label>
+    {{ form.username }}
   </div>
+
   <div class="mb-3">
-    <label for="id_password" class="form-label">Пароль</label>
-    <input type="password" name="password" id="id_password" class="form-control">
+    <label for="id_email">Email</label>
+    {{ form.email }}
   </div>
-  <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+
+  {% if form.password %}
+  <div class="mb-3">
+    <label for="id_password">Пароль</label>
+    {{ form.password }}
+  </div>
+  {% endif %}
+
+  <button type="submit" class="btn btn-primary">
+    {% if object %}
+      Изменить
+    {% else %}
+      Зарегистрировать
+    {% endif %}
+  </button>
+
 </form>
+
 {% endblock %}
