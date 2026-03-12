@@ -4,7 +4,7 @@ from task_manager.views import IndexView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", IndexView.as_view(), name="index"),
+    path("", IndexView.as_view(), name="index"),   # главная страница
     path("users/", include("task_manager.users.urls")),
     path("statuses/", include("task_manager.statuses.urls")),
     path("tasks/", include("task_manager.tasks.urls")),

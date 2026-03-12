@@ -1,11 +1,12 @@
+# task_manager/statuses/urls.py
 from django.urls import path
-from .views import StatusListView, StatusCreateView, StatusUpdateView, StatusDeleteView
+from . import views
 
 app_name = "statuses"
 
 urlpatterns = [
-    path("", StatusListView.as_view(), name="list"),
-    path("create/", StatusCreateView.as_view(), name="create"),
-    path("<int:pk>/update/", StatusUpdateView.as_view(), name="update"),
-    path("<int:pk>/delete/", StatusDeleteView.as_view(), name="delete"),
+    path("", views.StatusListView.as_view(), name="list"),  # список статусов
+    path("create/", views.StatusCreateView.as_view(), name="create"),
+    path("<int:pk>/update/", views.StatusUpdateView.as_view(), name="update"),
+    path("<int:pk>/delete/", views.StatusDeleteView.as_view(), name="delete"),
 ]
