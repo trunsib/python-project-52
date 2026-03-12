@@ -7,27 +7,32 @@
 <form method="post">
   {% csrf_token %}
 
-  <div>
-    <label for="id_first_name">Имя</label>
+  <div class="mb-3">
+    <label for="id_first_name" class="form-label">Имя</label>
     {{ form.first_name }}
   </div>
 
-  <div>
-    <label for="id_last_name">Фамилия</label>
+  <div class="mb-3">
+    <label for="id_last_name" class="form-label">Фамилия</label>
     {{ form.last_name }}
   </div>
 
-  <div>
-    <label for="id_username">Логин</label>
+  <div class="mb-3">
+    <label for="id_username" class="form-label">Имя пользователя</label>
     {{ form.username }}
   </div>
 
-  <div>
-    <label for="id_password">Пароль</label>
+  <div class="mb-3">
+    <label for="id_password" class="form-label">Пароль</label>
     {{ form.password }}
   </div>
 
-  <button type="submit">Зарегистрировать</button>
+  <div class="mb-3">
+    <label for="id_password_confirm" class="form-label">Подтверждение пароля</label>
+    {{ form.password_confirm }}
+  </div>
+
+  <button type="submit" class="btn btn-primary">Зарегистрировать</button>
 
 </form>
 
