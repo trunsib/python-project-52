@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
+from task_manager.views import IndexView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 
-    path('', include('task_manager.index_urls')),
+    path("", IndexView.as_view(), name="index"),
 
-    path('users/', include(('users.urls', 'users'), namespace='users')),
-    path('statuses/', include('task_manager.statuses_urls')),
-    path('labels/', include('task_manager.labels_urls')),
-    path('tasks/', include('task_manager.tasks_urls')),
+    path("users/", include("task_manager.users.urls")),
+    path("statuses/", include("task_manager.statuses.urls")),
+    path("tasks/", include("task_manager.tasks.urls")),
+    path("labels/", include("task_manager.labels.urls")),
 ]
