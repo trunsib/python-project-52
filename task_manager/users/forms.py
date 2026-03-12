@@ -1,32 +1,41 @@
-from django import forms
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
-class RegisterForm(forms.Form):
-    username = forms.CharField(
-        label="Имя пользователя",
-        max_length=150,
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
-    password = forms.CharField(
-        label="Пароль",
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
-    password_confirm = forms.CharField(
-        label="Подтверждение пароля",
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
+from .forms import UserRegisterForm
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exists():
-            raise ValidationError("Пользователь с таким именем уже существует")
-        return username
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
-        if password and password_confirm and password != password_confirm:
-            self.add_error('password_confirm', "Пароли не совпадают")
-            
+class UserListView(ListView):
+    model = User
+    template_name = "users/index.html"
+    context_object_name = "users"
+
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = UserRegisterForm
+    template_name = "users/form.html"
+    success_url = reverse_lazy("users:list")
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    fields = ["first_name", "last_name", "username"]
+    template_name = "users/form.html"
+    success_url = reverse_lazy("users:list")
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = "users/delete.html"
+    success_url = reverse_lazy("users:list")
+
+
+class UserLoginView(LoginView):
+    template_name = "users/login.html"
+
+
+class UserLogoutView(LogoutView):
+    next_page = reverse_lazy("index")
+    
