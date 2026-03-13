@@ -1,38 +1,37 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.views.generic import CreateView
-from .models import Status, Label, Task
-from .forms import StatusForm, LabelForm, TaskForm
 
+# --- Вход ---
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/")  # после входа на главную
+        else:
+            messages.error(request, "Неправильное имя пользователя или пароль")
+    return render(request, "tasks/login.html")
 
-class StatusCreateView(CreateView):
-    model = Status
-    form_class = StatusForm
-    template_name = "tasks/form.html"
-    success_url = "/statuses/"
-
-    def form_valid(self, form):
-        messages.success(self.request, "Статус успешно создан")
-        return super().form_valid(form)
-
-
-class LabelCreateView(CreateView):
-    model = Label
-    form_class = LabelForm
-    template_name = "tasks/form.html"
-    success_url = "/labels/"
-
-    def form_valid(self, form):
-        messages.success(self.request, "Метка успешно создана")
-        return super().form_valid(form)
-
-
-class TaskCreateView(CreateView):
-    model = Task
-    form_class = TaskForm
-    template_name = "tasks/form.html"
-    success_url = "/tasks/"
-
-    def form_valid(self, form):
-        messages.success(self.request, "Задача успешно создана")
-        return super().form_valid(form)
-    
+# --- Регистрация ---
+def register_view(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Имя пользователя уже занято")
+        else:
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+            )
+            login(request, user)
+            return redirect("/")  # после регистрации на главную
+    return render(request, "tasks/register.html")

@@ -1,14 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
-from task_manager.views import IndexView
+from django.contrib.auth import views as auth_views
+from tasks import views as task_views
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
 
-    path("", IndexView.as_view(), name="index"),
+    # маршруты приложения tasks
+    path('tasks/', include('tasks.urls')),
 
-    path("users/", include("task_manager.users.urls")),
-    path("statuses/", include("task_manager.statuses.urls")),
-    path("tasks/", include("task_manager.tasks.urls")),
-    path("labels/", include("task_manager.labels.urls")),
+    # маршруты аутентификации
+    path('register/', task_views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 ]

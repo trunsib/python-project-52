@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Task Manager{% endblock %}</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой проект{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        form { display: flex; flex-direction: column; max-width: 300px; }
+        label { margin-top: 10px; }
+        input { padding: 5px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        a { color: #1a73e8; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-  {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </body>
 </html>
