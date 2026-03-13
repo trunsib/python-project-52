@@ -1,38 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <h1>Регистрация</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert">{{ message }}</div>
+  {% endfor %}
+{% endif %}
 
 <form method="post">
   {% csrf_token %}
-
-  <div>
-    <label for="id_first_name">Имя</label>
-    {{ form.first_name }}
-  </div>
-
-  <div>
-    <label for="id_last_name">Фамилия</label>
-    {{ form.last_name }}
-  </div>
-
-  <div>
-    <label for="id_username">Имя пользователя</label>
-    {{ form.username }}
-  </div>
-
-  <div>
-    <label for="id_password1">Пароль</label>
-    {{ form.password1 }}
-  </div>
-
-  <div>
-    <label for="id_password2">Подтверждение пароля</label>
-    {{ form.password2 }}
-  </div>
-
-  <button type="submit">Зарегистрировать</button>
+  {{ form.as_p }}
+  <button type="submit">Зарегистрироваться</button>
 </form>
-
 {% endblock %}
