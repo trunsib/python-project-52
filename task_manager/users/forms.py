@@ -1,8 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm
+from django import forms
 from django.contrib.auth.models import User
 
 
-class UserCreateForm(UserCreationForm):
+class UserCreateForm(forms.ModelForm):
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -10,7 +11,13 @@ class UserCreateForm(UserCreationForm):
             "first_name",
             "last_name",
             "username",
-            "password1",
-            "password2",
+            "password",
         )
-        
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+    
