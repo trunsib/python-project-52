@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView as DjangoLoginView
-from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
+from django.contrib.auth.models import User
 
 from .forms import UserCreateForm
 
