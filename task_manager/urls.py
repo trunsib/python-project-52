@@ -1,16 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 from task_manager.tasks import views as task_views
-from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    
-    path("", TemplateView.as_view(template_name="base.html"), name="home"),
-    path('', include('task_manager.tasks.urls')),
+    path("admin/", admin.site.urls),
+
+    path("", task_views.home, name="home"),
+
+    path("users/login/", task_views.login_view, name="login"),
+    path("users/logout/", task_views.logout_view, name="logout"),
+    path("users/create/", task_views.register_view, name="register"),
+
     path("tasks/", include("task_manager.tasks.urls")),
-    path('register/', task_views.register_view, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
