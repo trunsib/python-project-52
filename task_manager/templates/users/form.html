@@ -8,27 +8,27 @@
   {% csrf_token %}
 
   <div>
-    <label>Имя</label>
+    <label for="id_first_name">Имя</label>
     {{ form.first_name }}
   </div>
 
   <div>
-    <label>Фамилия</label>
+    <label for="id_last_name">Фамилия</label>
     {{ form.last_name }}
   </div>
 
   <div>
-    <label>Имя пользователя</label>
+    <label for="id_username">Имя пользователя</label>
     {{ form.username }}
   </div>
 
   <div>
-    <label>Пароль</label>
+    <label for="id_password1">Пароль</label>
     {{ form.password1 }}
   </div>
 
   <div>
-    <label>Подтверждение пароля</label>
+    <label for="id_password2">Подтверждение пароля</label>
     {{ form.password2 }}
   </div>
 
