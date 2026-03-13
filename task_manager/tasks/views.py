@@ -1,7 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import redirect
 from django.views.generic import CreateView
-
 from .models import Status, Label, Task
 from .forms import StatusForm, LabelForm, TaskForm
 
@@ -13,7 +11,6 @@ class StatusCreateView(CreateView):
     success_url = "/statuses/"
 
     def form_valid(self, form):
-        self.object = form.save()
         messages.success(self.request, "Статус успешно создан")
         return super().form_valid(form)
 
@@ -25,7 +22,6 @@ class LabelCreateView(CreateView):
     success_url = "/labels/"
 
     def form_valid(self, form):
-        self.object = form.save()
         messages.success(self.request, "Метка успешно создана")
         return super().form_valid(form)
 
@@ -37,7 +33,6 @@ class TaskCreateView(CreateView):
     success_url = "/tasks/"
 
     def form_valid(self, form):
-        self.object = form.save()
         messages.success(self.request, "Задача успешно создана")
         return super().form_valid(form)
     
