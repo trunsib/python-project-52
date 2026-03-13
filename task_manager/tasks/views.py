@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -21,15 +22,15 @@ def login_view(request):
 
 
 def register_view(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("login")
+            messages.success(request, "Пользователь успешно зарегистрирован")
+            return redirect('login')
     else:
         form = UserCreationForm()
-
-    return render(request, "tasks/register.html", {"form": form})
+    return render(request, 'register.html', {'form': form})
 
 
 def logout_view(request):
