@@ -1,29 +1,39 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
 
 {% block content %}
-
-<h1>Регистрация</h1>
+<h2>Регистрация</h2>
 
 <form method="post">
-  {% csrf_token %}
+    {% csrf_token %}
 
-  <div class="mb-3">
-    <label for="id_username" class="form-label">Имя пользователя</label>
-    {{ form.username }}
-  </div>
+    <div>
+        <label for="first_name">Имя</label>
+        <input id="first_name" name="first_name" type="text" required>
+    </div>
 
-  <div class="mb-3">
-    <label for="id_password1" class="form-label">Пароль</label>
-    {{ form.password1 }}
-  </div>
+    <div>
+        <label for="last_name">Фамилия</label>
+        <input id="last_name" name="last_name" type="text" required>
+    </div>
 
-  <div class="mb-3">
-    <label for="id_password2" class="form-label">Подтверждение пароля</label>
-    {{ form.password2 }}
-  </div>
+    <div>
+        <label for="username">Имя пользователя</label>
+        <input id="username" name="username" type="text" required>
+    </div>
 
-  <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    <div>
+        <label for="password1">Пароль</label>
+        <input id="password1" name="password1" type="password" required>
+    </div>
 
+    <div>
+        <label for="password2">Подтверждение</label>
+        <input id="password2" name="password2" type="password" required>
+    </div>
+
+    <button type="submit">Зарегистрироваться</button>
 </form>
 
 {% endblock %}
