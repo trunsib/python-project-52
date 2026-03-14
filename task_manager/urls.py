@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from task_manager.tasks import views as task_views
-from tasks.views import RegisterView
+from task_manager.tasks.views import RegisterView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
