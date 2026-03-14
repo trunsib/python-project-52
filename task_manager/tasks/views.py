@@ -6,6 +6,7 @@ from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
+
 class RegisterView(CreateView):
     model = User
     form_class = UserCreationForm
@@ -28,18 +29,6 @@ def login_view(request):
         form = AuthenticationForm()
 
     return render(request, "tasks/login.html", {"form": form})
-
-
-def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Пользователь успешно зарегистрирован")
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
 
 
 def logout_view(request):
