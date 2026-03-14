@@ -37,13 +37,7 @@
 
 <div class="container mt-4">
 
-{% if messages %}
-  {% for message in messages %}
-      <div class="alert">
-          {{ message }}
-      </div>
-  {% endfor %}
-{% endif %}
+{% bootstrap_messages %}
 
 {% block content %}
 {% endblock %}

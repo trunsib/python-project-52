@@ -1,10 +1,12 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from .forms import CustomUserCreationForm, AuthenticationForm
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+
+from .forms import CustomUserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegisterView(CreateView):
@@ -38,3 +40,4 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+    

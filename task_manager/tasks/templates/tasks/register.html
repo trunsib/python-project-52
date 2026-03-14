@@ -1,39 +1,17 @@
 {% extends 'base.html' %}
-
-{% block title %}Регистрация{% endblock %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-<h2>Регистрация</h2>
+
+<h1>Регистрация</h1>
 
 <form method="post">
     {% csrf_token %}
 
-    <div>
-        <label for="first_name">Имя</label>
-        <input id="first_name" name="first_name" type="text" required>
-    </div>
+    {% bootstrap_form form %}
 
-    <div>
-        <label for="last_name">Фамилия</label>
-        <input id="last_name" name="last_name" type="text" required>
-    </div>
+    {% bootstrap_button "Зарегистрировать" button_type="submit" button_class="btn-primary" %}
 
-    <div>
-        <label for="username">Имя пользователя</label>
-        <input id="username" name="username" type="text" required>
-    </div>
-
-    <div>
-        <label for="password1">Пароль</label>
-        <input id="password1" name="password1" type="password" required>
-    </div>
-
-    <div>
-        <label for="password2">Подтверждение пароля</label>
-        <input id="password2" name="password2" type="password" required>
-    </div>
-
-    <button type="submit">Зарегистрироваться</button>
 </form>
 
 {% endblock %}
