@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .forms import CustomUserCreationForm, AuthenticationForm
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
@@ -9,9 +9,13 @@ from django.urls import reverse_lazy
 
 class RegisterView(CreateView):
     model = User
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     template_name = 'tasks/register.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Пользователь успешно зарегистрирован")
+        return super().form_valid(form)
 
 
 def home(request):
