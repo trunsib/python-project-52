@@ -1,6 +1,6 @@
-from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib import messages
 from .forms import UserCreationForm
 
 
@@ -14,4 +14,4 @@ def create(request):
     else:
         form = UserCreationForm()
 
-    return render(request, 'users/create.html', {'form': form})
+    return render(request, 'users/form.html', {'form': form})
