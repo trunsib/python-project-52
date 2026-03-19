@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
-from .forms import UserCreationForm
+from .forms import UserRegisterForm
 
 
-def create(request):
+def create_user(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Пользователь успешно зарегистрирован')
-            return redirect(reverse('login'))
+            return redirect('login')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
 
     return render(request, 'users/form.html', {'form': form})
