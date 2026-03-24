@@ -9,17 +9,6 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
-class RegisterView(CreateView):
-    model = User
-    form_class = CustomUserCreationForm
-    template_name = 'tasks/register.html'
-    success_url = reverse_lazy('login')
-
-    def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно зарегистрирован")
-        return super().form_valid(form)
-
-
 def home(request):
     return render(request, "home.html")
 
