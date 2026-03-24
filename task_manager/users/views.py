@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from task_manager.forms import RegisterForm
+from ..forms import RegisterForm
 
 def register(request):
     if request.method == 'POST':
