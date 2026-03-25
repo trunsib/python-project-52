@@ -1,12 +1,9 @@
-# task_manager/labels/urls.py
 from django.urls import path
 from . import views
 
-app_name = "labels"
-
 urlpatterns = [
-    path("", views.LabelListView.as_view(), name="list"),
-    path("create/", views.LabelCreateView.as_view(), name="create"),
-    path("<int:pk>/update/", views.LabelUpdateView.as_view(), name="update"),
-    path("<int:pk>/delete/", views.LabelDeleteView.as_view(), name="delete"),
+    path('', views.StatusListView.as_view(), name='statuses'),
+    path('create/', views.StatusCreateView.as_view(), name='status_create'),
+    path('<int:pk>/update/', views.StatusUpdateView.as_view(), name='status_update'),
+    path('<int:pk>/delete/', views.StatusDeleteView.as_view(), name='status_delete'),
 ]

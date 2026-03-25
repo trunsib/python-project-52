@@ -1,34 +1,58 @@
-from django.contrib import messages
-from django.contrib.auth import login, logout
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView
-from django.contrib.auth.models import User
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from task_manager.tasks.models import Task
+from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 
-from .forms import CustomUserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+class TaskListView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'tasks/index.html'
+    context_object_name = 'tasks'
 
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    fields = ['name', 'description', 'status', 'executor', 'labels']
+    template_name = 'tasks/create.html'
+    success_url = reverse_lazy('tasks')
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        messages.success(self.request, "Задача успешно создана")
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['statuses'] = Status.objects.all()
+        context['users'] = User.objects.all()
+        context['labels'] = Label.objects.all()
+        return context
 
-def home(request):
-    return render(request, "home.html")
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    fields = ['name', 'description', 'status', 'executor', 'labels']
+    template_name = 'tasks/update.html'
+    success_url = reverse_lazy('tasks')
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Задача успешно изменена")
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['statuses'] = Status.objects.all()
+        context['users'] = User.objects.all()
+        context['labels'] = Label.objects.all()
+        return context
 
-
-def login_view(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            messages.success(request, "Вы залогинены")
-            return redirect("home")
-    else:
-        form = AuthenticationForm()
-
-    return render(request, "login.html", {"form": form})
-
-
-def logout_view(request):
-    logout(request)
-    messages.success(request, "Вы разлогинены")
-    return redirect("login")
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = 'tasks/delete.html'
+    success_url = reverse_lazy('tasks')
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Задача успешно удалена")
+        return super().form_valid(form)
     
