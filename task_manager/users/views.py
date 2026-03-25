@@ -12,10 +12,12 @@ def register(request):
             messages.success(request, "Пользователь успешно зарегистрирован")
             return redirect('login')
         else:
-            print("=== FORM ERRORS ===")
+            print("=" * 50)
+            print("REGISTRATION FORM ERRORS:")
+            print(f"Form data: {request.POST}")
             for field, errors in form.errors.items():
                 print(f"{field}: {', '.join(errors)}")
-            print("===================")
+            print("=" * 50)
             messages.error(request, "Пожалуйста, исправьте ошибки в форме")
     else:
         form = UserRegisterForm()
