@@ -8,6 +8,9 @@ class LabelListView(LoginRequiredMixin, ListView):
     model = Label
     template_name = 'labels/index.html'
     context_object_name = 'labels'
+    
+    def get_queryset(self):
+        return Label.objects.all()
 
 class LabelCreateView(LoginRequiredMixin, CreateView):
     model = Label
