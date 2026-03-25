@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Изменение задачи</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="name" class="form-label">Название</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ task.name }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Описание</label>
+            <textarea name="description" id="description" class="form-control" rows="3">{{ task.description }}</textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="status" class="form-label">Статус</label>
+            <select name="status" id="status" class="form-select" required>
+                {% for status in statuses %}
+                <option value="{{ status.id }}" {% if task.status.id == status.id %}selected{% endif %}>
+                    {{ status.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="executor" class="form-label">Исполнитель</label>
+            <select name="executor" id="executor" class="form-select">
+                <option value="">---------</option>
+                {% for user in users %}
+                <option value="{{ user.id }}" {% if task.executor and task.executor.id == user.id %}selected{% endif %}>
+                    {{ user.get_full_name|default:user.username }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="labels" class="form-label">Метки</label>
+            <select name="labels" id="labels" class="form-select" multiple>
+                {% for label in labels %}
+                <option value="{{ label.id }}" {% if label in task.labels.all %}selected{% endif %}>
+                    {{ label.name }}
+                </option>
+                {% endfor %}
+            </select>
+            <small class="form-text text-muted">Удерживайте Ctrl для выбора нескольких меток</small>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Изменить</button>
+    </form>
+</div>
+{% endblock %}
