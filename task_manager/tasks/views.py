@@ -23,7 +23,7 @@ def login_view(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, "tasks/login.html", {"form": form})
+    return render(request, "login.html", {"form": form})
 
 
 def logout_view(request):
