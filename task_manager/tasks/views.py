@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -6,6 +7,10 @@ from django.contrib.auth.models import User
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
+
+def home(request):
+    """Главная страница"""
+    return render(request, 'home.html')
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task

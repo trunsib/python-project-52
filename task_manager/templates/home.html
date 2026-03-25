@@ -1,9 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-
-<h1>Менеджер задач</h1>
-
-<p>Добро пожаловать</p>
-
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Добро пожаловать в Task Manager!</h1>
+        <p class="lead">Управляйте своими задачами эффективно.</p>
+        <hr class="my-4">
+        <p>Используйте навигационное меню для работы с задачами, статусами, метками и пользователями.</p>
+        {% if not user.is_authenticated %}
+        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Войти</a>
+        <a class="btn btn-secondary btn-lg" href="{% url 'user_create' %}" role="button">Зарегистрироваться</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
