@@ -33,6 +33,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('tasks')
     
     def form_valid(self, form):
+        name = form.cleaned_data.get('name')
+        if Task.objects.filter(name=name).exists():
+            messages.error(self.request, "Задача с таким именем уже существует")
+            return self.form_invalid(form)
+        
         form.instance.author = self.request.user
         messages.success(self.request, "Задача успешно создана")
         return super().form_valid(form)
