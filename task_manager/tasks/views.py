@@ -19,6 +19,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, "Вы залогинены")
             return redirect("home")
     else:
         form = AuthenticationForm()
