@@ -8,9 +8,6 @@ class StatusListView(LoginRequiredMixin, ListView):
     model = Status
     template_name = 'statuses/index.html'
     context_object_name = 'statuses'
-    
-    def get_queryset(self):
-        return Status.objects.all()
 
 class StatusCreateView(LoginRequiredMixin, CreateView):
     model = Status

@@ -47,6 +47,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['first_name', 'last_name', 'username']
     template_name = 'users/update.html'
     success_url = reverse_lazy('users')
+
+    def get_object(self, queryset=None):
+        return self.request.user
     
     def form_valid(self, form):
         messages.success(self.request, "Пользователь успешно изменён")
