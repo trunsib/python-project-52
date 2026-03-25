@@ -20,6 +20,7 @@
         <div class="mb-3">
             <label for="status" class="form-label">Статус</label>
             <select name="status" id="status" class="form-select" required>
+                <option value="">---------</option>
                 {% for status in statuses %}
                 <option value="{{ status.id }}">{{ status.name }}</option>
                 {% endfor %}
@@ -37,7 +38,7 @@
         </div>
         
         <div class="mb-3">
-            <label for="labels" class="form-label">Метки</label>
+            <label class="form-label">Метки</label>
             <select name="labels" id="labels" class="form-select" multiple>
                 {% for label in labels %}
                 <option value="{{ label.id }}">{{ label.name }}</option>

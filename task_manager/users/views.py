@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.views.generic import ListView, UpdateView, DeleteView
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .forms import UserRegisterForm
 
@@ -16,6 +16,9 @@ def register(request):
             login(request, user)
             messages.success(request, "Пользователь успешно зарегистрирован")
             return redirect('login')
+        else:
+            print("FORM ERRORS:", form.errors)
+            messages.error(request, "Пожалуйста, исправьте ошибки в форме")
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -41,24 +44,48 @@ class UserListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'users/index.html'
     context_object_name = 'users'
+    
+    def get_queryset(self):
+        return User.objects.all()
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     fields = ['first_name', 'last_name', 'username']
     template_name = 'users/update.html'
     success_url = reverse_lazy('users')
-
-    def get_object(self, queryset=None):
-        return self.request.user
+    
+    def test_func(self):
+        return self.get_object() == self.request.user
     
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно изменён")
+        user = form.save(commit=False)
+        password = self.request.POST.get('password')
+        password_confirm = self.request.POST.get('password_confirm')
+        
+        if password and password == password_confirm:
+            user.set_password(password)
+            messages.success(self.request, "Пользователь успешно изменён")
+        elif password:
+            messages.error(self.request, "Пароли не совпадают")
+            return self.form_invalid(form)
+        else:
+            messages.success(self.request, "Пользователь успешно изменён")
+        
+        user.save()
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.get_object()
+        return context
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users')
+    
+    def test_func(self):
+        return self.get_object() == self.request.user
     
     def form_valid(self, form):
         messages.success(self.request, "Пользователь успешно удалён")

@@ -16,6 +16,9 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'tasks/index.html'
     context_object_name = 'tasks'
+    
+    def get_queryset(self):
+        return Task.objects.all().select_related('status', 'author', 'executor').prefetch_related('labels')
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
