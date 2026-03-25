@@ -31,15 +31,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "django_bootstrap5",
     "django_filters",
-
     "task_manager.users",
     "task_manager.statuses",
     "task_manager.tasks",
     "task_manager.labels",
-
     "rollbar.contrib.django",
 ]
 
