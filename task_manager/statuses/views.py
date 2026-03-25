@@ -7,7 +7,6 @@ from task_manager.statuses.models import Status
 
 
 class StatusListView(LoginRequiredMixin, ListView):
-    """Отображение списка статусов"""
     model = Status
     template_name = 'statuses/index.html'
     context_object_name = 'statuses'
@@ -17,7 +16,6 @@ class StatusListView(LoginRequiredMixin, ListView):
 
 
 class StatusCreateView(LoginRequiredMixin, CreateView):
-    """Создание нового статуса"""
     model = Status
     fields = ['name']
     template_name = 'statuses/create.html'
@@ -26,14 +24,9 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         messages.success(self.request, "Статус успешно создан")
         return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        messages.error(self.request, "Статус с таким именем уже существует")
-        return super().form_invalid(form)
 
 
 class StatusUpdateView(LoginRequiredMixin, UpdateView):
-    """Редактирование статуса"""
     model = Status
     fields = ['name']
     template_name = 'statuses/update.html'
@@ -45,18 +38,14 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class StatusDeleteView(LoginRequiredMixin, DeleteView):
-    """Удаление статуса с проверкой связей"""
     model = Status
     template_name = 'statuses/delete.html'
     success_url = reverse_lazy('statuses')
     
     def form_valid(self, form):
         if self.object.task_set.exists():
-            messages.error(
-                self.request, 
-                "Невозможно удалить статус, который используется в задаче"
-            )
+            messages.error(self.request, "Невозможно удалить статус, который используется в задаче")
             return redirect('statuses')
-        
         messages.success(self.request, "Статус успешно удален")
         return super().form_valid(form)
+    

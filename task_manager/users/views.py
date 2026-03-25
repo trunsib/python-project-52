@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.views.generic import ListView, UpdateView, DeleteView
@@ -62,16 +62,19 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         password = self.request.POST.get('password')
         password_confirm = self.request.POST.get('password_confirm')
         
-        if password and password == password_confirm:
-            user.set_password(password)
-            messages.success(self.request, "Пользователь успешно изменен")
-        elif password:
-            messages.error(self.request, "Пароли не совпадают")
-            return self.form_invalid(form)
+        if password:
+            if password == password_confirm:
+                user.set_password(password)
+                user.save()
+                update_session_auth_hash(self.request, user)
+                messages.success(self.request, "Пользователь успешно изменен")
+            else:
+                messages.error(self.request, "Пароли не совпадают")
+                return self.form_invalid(form)
         else:
+            user.save()
             messages.success(self.request, "Пользователь успешно изменен")
         
-        user.save()
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -88,6 +91,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object() == self.request.user
     
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно удален")
+        messages.success(self.request, "Пользователь успешно удалён")
         return super().form_valid(form)
     

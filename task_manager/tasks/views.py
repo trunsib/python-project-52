@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
@@ -20,6 +21,11 @@ class TaskListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Task.objects.all().select_related('status', 'author', 'executor').prefetch_related('labels')
 
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    template_name = 'tasks/show.html'
+    context_object_name = 'task'
+
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = ['name', 'description', 'status', 'executor', 'labels']
@@ -28,7 +34,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, "Задача успешно создана")  # ← это сообщение
+        messages.success(self.request, "Задача успешно создана")
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -54,16 +60,19 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         context['users'] = User.objects.all()
         context['labels'] = Label.objects.all()
         return context
-    
-class TaskDetailView(LoginRequiredMixin, DetailView):
-    model = Task
-    template_name = 'tasks/show.html'
-    context_object_name = 'task'
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'tasks/delete.html'
     success_url = reverse_lazy('tasks')
+    
+    def test_func(self):
+        task = self.get_object()
+        return task.author == self.request.user
+    
+    def handle_no_permission(self):
+        messages.error(self.request, "Вы не можете удалить задачу, которая не принадлежит вам")
+        return redirect('tasks')
     
     def form_valid(self, form):
         messages.success(self.request, "Задача успешно удалена")
