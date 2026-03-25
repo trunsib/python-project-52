@@ -51,7 +51,6 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('statuses')
     
     def form_valid(self, form):
-        # Проверяем, есть ли задачи, использующие этот статус
         if self.object.task_set.exists():
             messages.error(
                 self.request, 
@@ -59,7 +58,5 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
             )
             return redirect('statuses')
         
-        # Если задач нет, удаляем статус
         messages.success(self.request, "Статус успешно удален")
         return super().form_valid(form)
-        

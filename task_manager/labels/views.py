@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from task_manager.labels.models import Label
+from django.shortcuts import redirect
 from django.db import IntegrityError
 
 class LabelListView(LoginRequiredMixin, ListView):
@@ -43,6 +44,9 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('labels')
     
     def form_valid(self, form):
+        if self.object.task_set.exists():
+            messages.error(self.request, "Невозможно удалить метку, которая используется в задаче")
+            return redirect('labels')
         messages.success(self.request, "Метка успешно удалена")
         return super().form_valid(form)
-    
+        
