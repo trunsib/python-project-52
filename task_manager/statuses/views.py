@@ -22,6 +22,11 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('statuses')
     
     def form_valid(self, form):
+        name = form.cleaned_data.get('name')
+        if Status.objects.filter(name=name).exists():
+            messages.error(self.request, "Статус с таким именем уже существует")
+            return self.form_invalid(form)
+        
         messages.success(self.request, "Статус успешно создан")
         return super().form_valid(form)
 

@@ -91,6 +91,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object() == self.request.user
     
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно удалён")
+        messages.success(self.request, "Пользователь успешно удален")
         return super().form_valid(form)
     

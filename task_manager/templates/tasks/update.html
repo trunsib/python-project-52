@@ -8,7 +8,7 @@
         {% csrf_token %}
         
         <div class="mb-3">
-            <label for="name" class="form-label">Название</label>
+            <label for="name" class="form-label">Имя</label>
             <input type="text" name="name" id="name" class="form-control" value="{{ task.name }}" required>
         </div>
         
@@ -41,8 +41,8 @@
         </div>
         
         <div class="mb-3">
-            <label for="labels" class="form-label">Метки</label>
-            <select name="labels" id="labels" class="form-select" multiple>
+            <label for="id_labels" class="form-label">Метки</label>
+            <select name="labels" id="id_labels" class="form-select" multiple>
                 {% for label in labels %}
                 <option value="{{ label.id }}" {% if label in task.labels.all %}selected{% endif %}>
                     {{ label.name }}
