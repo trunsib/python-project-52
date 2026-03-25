@@ -2,7 +2,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Status
+from task_manager.statuses.models import Status
 
 class StatusListView(LoginRequiredMixin, ListView):
     model = Status
