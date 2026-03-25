@@ -64,12 +64,12 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         
         if password and password == password_confirm:
             user.set_password(password)
-            messages.success(self.request, "Пользователь успешно изменён")
+            messages.success(self.request, "Пользователь успешно изменен")
         elif password:
             messages.error(self.request, "Пароли не совпадают")
             return self.form_invalid(form)
         else:
-            messages.success(self.request, "Пользователь успешно изменён")
+            messages.success(self.request, "Пользователь успешно изменен")
         
         user.save()
         return super().form_valid(form)
@@ -88,6 +88,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object() == self.request.user
     
     def form_valid(self, form):
-        messages.success(self.request, "Пользователь успешно удалён")
+        messages.success(self.request, "Пользователь успешно удален")
         return super().form_valid(form)
     

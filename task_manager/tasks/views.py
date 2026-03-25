@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -28,7 +28,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, "Задача успешно создана")
+        messages.success(self.request, "Задача успешно создана")  # ← это сообщение
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -54,6 +54,11 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         context['users'] = User.objects.all()
         context['labels'] = Label.objects.all()
         return context
+    
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    template_name = 'tasks/show.html'
+    context_object_name = 'task'
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task

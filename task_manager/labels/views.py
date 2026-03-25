@@ -22,8 +22,9 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         try:
+            response = super().form_valid(form)
             messages.success(self.request, "Метка успешно создана")
-            return super().form_valid(form)
+            return response
         except IntegrityError:
             messages.error(self.request, "Метка с таким именем уже существует")
             return self.form_invalid(form)
@@ -49,4 +50,3 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
             return redirect('labels')
         messages.success(self.request, "Метка успешно удалена")
         return super().form_valid(form)
-        
