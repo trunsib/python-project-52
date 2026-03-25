@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from task_manager.labels.models import Label
+from django.db import IntegrityError
 
 class LabelListView(LoginRequiredMixin, ListView):
     model = Label
@@ -19,8 +20,12 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('labels')
     
     def form_valid(self, form):
-        messages.success(self.request, "Метка успешно создана")
-        return super().form_valid(form)
+        try:
+            messages.success(self.request, "Метка успешно создана")
+            return super().form_valid(form)
+        except IntegrityError:
+            messages.error(self.request, "Метка с таким именем уже существует")
+            return self.form_invalid(form)
 
 class LabelUpdateView(LoginRequiredMixin, UpdateView):
     model = Label
