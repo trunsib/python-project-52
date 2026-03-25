@@ -4,12 +4,25 @@
 <div class="container mt-4">
     <h2>Создать статус</h2>
     
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Ошибка!</strong> Пожалуйста, исправьте следующие ошибки:
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
     <form method="post">
         {% csrf_token %}
         
         <div class="mb-3">
             <label for="name" class="form-label">Имя</label>
-            <input type="text" name="name" id="name" class="form-control" required>
+            <input type="text" name="name" id="name" class="form-control" value="{{ form.name.value|default:'' }}" required>
         </div>
         
         <button type="submit" class="btn btn-primary">Создать</button>
