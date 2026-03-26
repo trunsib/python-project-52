@@ -9,9 +9,11 @@ from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
 
+
 def home(request):
     """Главная страница"""
     return render(request, 'home.html')
+
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
@@ -21,10 +23,12 @@ class TaskListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Task.objects.all().select_related('status', 'author', 'executor').prefetch_related('labels')
 
+
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = 'tasks/show.html'
     context_object_name = 'task'
+
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
@@ -49,6 +53,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         context['labels'] = Label.objects.all()
         return context
 
+
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['name', 'description', 'status', 'executor', 'labels']
@@ -65,6 +70,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         context['users'] = User.objects.all()
         context['labels'] = Label.objects.all()
         return context
+
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
