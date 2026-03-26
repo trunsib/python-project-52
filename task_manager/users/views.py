@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .forms import UserRegisterForm
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -23,6 +24,7 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
 
+
 def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -35,10 +37,12 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {"form": form})
 
+
 def logout_view(request):
     logout(request)
     messages.success(request, "Вы разлогинены")
     return redirect('login')
+
 
 class UserListView(LoginRequiredMixin, ListView):
     model = User
@@ -47,6 +51,7 @@ class UserListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         return User.objects.all()
+
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
@@ -81,6 +86,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['user'] = self.get_object()
         return context
+
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User

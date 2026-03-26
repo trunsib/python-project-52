@@ -21,7 +21,13 @@ class TaskListView(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
     
     def get_queryset(self):
-        return Task.objects.all().select_related('status', 'author', 'executor').prefetch_related('labels')
+        return Task.objects.all().select_related(
+            'status',
+            'author',
+            'executor'
+            ).prefetch_related(
+                'labels'
+                )
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
