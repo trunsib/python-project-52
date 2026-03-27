@@ -1,0 +1,31 @@
+target-version = "py310"
+
+[lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (будем игнорировать для Django)
+    "W291",  # trailing whitespace
+    "W292",  # no newline at end of file
+]
+
+[lint.per-file-ignores]
+"*/migrations/*" = ["E501", "F401", "F403", "E402"]
+"*/tests/*" = ["E501", "F401", "F403", "S101"]
+
+[lint.isort]
+known-first-party = ["task_manager"]
+
+[lint.flake8-bugbear]
+extend-immutable-calls = ["pathlib.Path"]
+
+[format]
+line-length = 88
+indent-style = "space"
