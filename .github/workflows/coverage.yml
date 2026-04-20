@@ -22,9 +22,9 @@ jobs:
         run: |
           pip install uv
           uv sync
+          pip install coverage
 
       - name: Run tests with coverage
         run: |
           uv run coverage run manage.py test
           uv run coverage report
-          
