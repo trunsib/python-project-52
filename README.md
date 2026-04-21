@@ -31,4 +31,3 @@ make migrate
 make collectstatic
 
 python manage.py runserver
-
