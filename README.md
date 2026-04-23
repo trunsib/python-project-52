@@ -3,6 +3,8 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=trunsib_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=trunsib_python-project-52)
 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=trunsib_python-project-52&metric=coverage)](https://sonarcloud.io/summary/new_code?id=trunsib_python-project-52)
+
 # Hexlet Task Manager
 
 Простой менеджер задач на Django для учебного проекта Hexlet.
